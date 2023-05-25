@@ -8,18 +8,18 @@ import { Model } from 'mongoose'
 export class UserService {
 	constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-	async findUser(email: string): Promise<UserDocument> {
+	async findUser(login: string): Promise<UserDocument> {
 		try {
-			return await this.userModel.findOne({ email })
+			return await this.userModel.findOne({ login })
 		} catch (e) {
 			console.log(e)
 		}
 	}
 
-	async createUser(email: string, password: string, name: string): Promise<User> {
+	async createUser(login: string, password: string, name: string, surname: string): Promise<User> {
 		try {
 			const hashPassword = await bcrypt.hash(password, 8)
-			return await this.userModel.create({ email, password: hashPassword, name })
+			return await this.userModel.create({ login, password: hashPassword, name, surname })
 		} catch (e) {
 			console.log(e)
 		}

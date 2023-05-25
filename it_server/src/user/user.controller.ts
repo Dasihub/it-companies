@@ -11,20 +11,20 @@ export class UserController {
 	@Post('register')
 	async register(@Body() body: RegisterUserDto) {
 		try {
-			const { email, name, password } = body
+			const { login, name, password, surname } = body
 
-			const isCandidate = await this.userService.findUser(email)
+			const isCandidate = await this.userService.findUser(login)
 
 			if (isCandidate) {
 				return {
-					message: `Пользователь с таким ${email} эл.почтой уже существует`,
+					message: `Пользователь с таким ${login} эл.почтой уже существует`,
 					type: 'warn',
 					data: [],
 					register: false
 				}
 			}
 
-			const result = await this.userService.createUser(email, password, name)
+			const result = await this.userService.createUser(login, password, name, surname)
 
 			if (result.name.length) {
 				return {
@@ -50,33 +50,33 @@ export class UserController {
 	@Post('login')
 	async login(@Body() body: LoginUserDto, @Res() res) {
 		try {
-			const { email: emailBody, password: passwordBody } = body
+			const { login: loginBody, password: passwordBody } = body
 
-			const user = await this.userService.findUser(emailBody)
+			const user = await this.userService.findUser(loginBody)
 
 			if (!user) {
 				return res.status(303).json({
-					message: 'Неправильный email или пароль',
+					message: 'Неправильный логин или пароль',
 					type: 'success',
 					data: [],
 					token: ''
 				})
 			}
 
-			const { password, name, email, _id } = user
+			const { password, name, login, _id } = user
 
 			const isPassword = await this.userService.isPassword(passwordBody, password)
 
 			if (!isPassword) {
 				return res.status(303).json({
-					message: 'Неправильный email или пароль',
+					message: 'Неправильный логин или пароль',
 					type: 'success',
 					data: [],
 					token: ''
 				})
 			}
 
-			const token = this.jwtService.sign({ _id, name, email })
+			const token = this.jwtService.sign({ _id, name, login })
 
 			res.status(202)
 				.cookie('token', token, {
@@ -86,7 +86,7 @@ export class UserController {
 				.json({
 					message: 'Авторизация прошла успешно',
 					type: 'success',
-					data: { name, email, _id },
+					data: { name, login, _id },
 					token
 				})
 		} catch (e) {
@@ -133,7 +133,7 @@ export class UserController {
 
 			const data = this.jwtService.verify(token)
 
-			const user = await this.userService.findUser(data.email)
+			const user = await this.userService.findUser(data.login)
 			if (!user) {
 				return {
 					message: 'Вы не авторизованы',
@@ -143,12 +143,12 @@ export class UserController {
 				}
 			}
 
-			const { email, name, _id } = user
+			const { login, name, _id } = user
 
 			return {
 				message: 'Авторизация прошла успешно',
 				type: 'success',
-				data: { email, name, _id },
+				data: { login, name, _id },
 				token
 			}
 		} catch (e) {
