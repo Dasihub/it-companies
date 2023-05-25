@@ -19,9 +19,3 @@ export const request = async (url: string, method: tMethod = 'GET', body: any = 
 		console.log(e)
 	}
 }
-
-export const useHttp = () => {
-	const http = useCallback(request, [])
-
-	return { http }
-}

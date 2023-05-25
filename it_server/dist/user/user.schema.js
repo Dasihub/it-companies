@@ -16,6 +16,10 @@ let User = class User {
 __decorate([
     (0, mongoose_1.Prop)({ type: String, required: true }),
     __metadata("design:type", String)
+], User.prototype, "surname", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: String, required: true }),
+    __metadata("design:type", String)
 ], User.prototype, "name", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: String, required: true }),
@@ -24,7 +28,7 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({ type: String, required: true, unique: true }),
     __metadata("design:type", String)
-], User.prototype, "email", void 0);
+], User.prototype, "login", void 0);
 User = __decorate([
     (0, mongoose_1.Schema)()
 ], User);

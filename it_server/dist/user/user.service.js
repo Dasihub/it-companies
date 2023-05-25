@@ -22,18 +22,18 @@ let UserService = class UserService {
     constructor(userModel) {
         this.userModel = userModel;
     }
-    async findUser(email) {
+    async findUser(login) {
         try {
-            return await this.userModel.findOne({ email });
+            return await this.userModel.findOne({ login });
         }
         catch (e) {
             console.log(e);
         }
     }
-    async createUser(email, password, name) {
+    async createUser(login, password, name, surname) {
         try {
             const hashPassword = await bcrypt.hash(password, 8);
-            return await this.userModel.create({ email, password: hashPassword, name });
+            return await this.userModel.create({ login, password: hashPassword, name, surname });
         }
         catch (e) {
             console.log(e);

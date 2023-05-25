@@ -21,7 +21,7 @@ export declare class UserController {
         message: string;
         type: string;
         data: {
-            email?: undefined;
+            login?: undefined;
             name?: undefined;
             _id?: undefined;
         };
@@ -30,7 +30,7 @@ export declare class UserController {
         message: string;
         type: string;
         data: {
-            email: string;
+            login: string;
             name: string;
             _id: any;
         };
