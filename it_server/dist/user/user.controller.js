@@ -107,7 +107,6 @@ let UserController = class UserController {
             }
             const bearer = authorization.split(' ')[0];
             const str = authorization.split(' ')[1];
-            console.log(bearer, str);
             if (!(bearer == 'Bearer' && str.length)) {
                 return {
                     message: 'Вы не авторизованы',

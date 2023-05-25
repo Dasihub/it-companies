@@ -17,15 +17,15 @@ let FileService = class FileService {
     constructor() { }
     async saveProfileImg(img) {
         try {
-            if (!fs.existsSync('public/profile')) {
-                fs.mkdir('public/profile', err => {
+            if (!fs.existsSync('public/posts')) {
+                fs.mkdir('public/posts', err => {
                     if (err) {
                         console.log(err, 'Error create dir');
                     }
                 });
             }
             const fileName = (0, uuid_1.v4)() + '.jpg';
-            await fs.writeFile('public/profile/' + fileName, img.buffer, err => {
+            await fs.writeFile('public/posts/' + fileName, img.buffer, err => {
                 if (err) {
                     console.log(err, 'Error save img');
                 }

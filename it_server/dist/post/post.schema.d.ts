@@ -22,20 +22,20 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
-import { Post, PostDocument } from './post.schema';
-export declare class PostService {
-    private postModel;
-    constructor(postModel: Model<PostDocument>);
-    findPosts(id_user: string): Promise<(import("mongoose").Document<unknown, {}, PostDocument> & Omit<Post & import("mongoose").Document<any, any, any> & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never>)[]>;
-    findOnePost(id_post: string): Promise<import("mongoose").Document<unknown, {}, PostDocument> & Omit<Post & import("mongoose").Document<any, any, any> & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never>>;
-    createPost(description: string, id_user: string, title: string, message: string, author: string, fileName: string): Promise<import("mongoose").Document<unknown, {}, PostDocument> & Omit<Post & import("mongoose").Document<any, any, any> & {
-        _id: import("mongoose").Types.ObjectId;
-    }, never>>;
-    updatePost(description: string, id_post: string, message: string, author: string, title: string): Promise<import("mongoose").UpdateWriteOpResult>;
-    deletePost(id_post: string): Promise<import("mongodb").DeleteResult>;
+import { Document } from 'mongoose';
+export type PostDocument = Post & Document;
+export declare class Post {
+    id_user: string;
+    title: string;
+    message: string;
+    author: string;
+    description: string;
+    fileName: string;
+    likeCount: number;
+    createdAt: string;
 }
+export declare const PostSchema: import("mongoose").Schema<Post, import("mongoose").Model<Post, any, any, any, Document<unknown, any, Post> & Omit<Post & {
+    _id: import("mongoose").Types.ObjectId;
+}, never>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Post, Document<unknown, {}, import("mongoose").FlatRecord<Post>> & Omit<import("mongoose").FlatRecord<Post> & {
+    _id: import("mongoose").Types.ObjectId;
+}, never>>;

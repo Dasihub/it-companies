@@ -8,15 +8,15 @@ export class FileService {
 
 	async saveProfileImg(img: any): Promise<string> {
 		try {
-			if (!fs.existsSync('public/profile')) {
-				fs.mkdir('public/profile', err => {
+			if (!fs.existsSync('public/posts')) {
+				fs.mkdir('public/posts', err => {
 					if (err) {
 						console.log(err, 'Error create dir')
 					}
 				})
 			}
 			const fileName = v4() + '.jpg'
-			await fs.writeFile('public/profile/' + fileName, img.buffer, err => {
+			await fs.writeFile('public/posts/' + fileName, img.buffer, err => {
 				if (err) {
 					console.log(err, 'Error save img')
 				}
