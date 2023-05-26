@@ -36,6 +36,18 @@ let FileService = class FileService {
             console.log(e);
         }
     }
+    async delete(fileName) {
+        try {
+            await fs.unlink('public/posts/' + fileName, err => {
+                if (err) {
+                    console.log(err, 'Error remove img');
+                }
+            });
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
 };
 FileService = __decorate([
     (0, common_1.Injectable)(),

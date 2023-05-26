@@ -25,7 +25,6 @@ export class PostService {
 
 	async createPost(description: string, id_user: string, title: string, message: string, author: string, fileName: string) {
 		try {
-			console.log(description, id_user, title, message, author, fileName)
 			return await this.postModel.create({id_user, title, message, author, fileName, description})
 		} catch (e) {
 			console.log(e)
@@ -34,7 +33,7 @@ export class PostService {
 
 	async updatePost(description: string, id_post: string, message: string, author: string, title: string) {
 		try {
-			return await this.postModel.updateOne({_id: id_post}, {description,message, author, title})
+			return await this.postModel.updateOne({_id: id_post}, {description, message, author, title})
 		} catch (e) {
 			console.log(e)
 		}

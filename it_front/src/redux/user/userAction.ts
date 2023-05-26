@@ -17,8 +17,22 @@ export const loginAction = createAsyncThunk<IUser, { login: string; password: st
 			toast[type](message)
 
 			if (token.length) {
-				return data
+				localStorage.setItem('token', `Bearer ${token}`)
 			}
+
+			return data
+		} catch (e) {
+			return thunkAPI.rejectWithValue('Ошибка')
+		}
+	}
+)
+
+
+export const checkTokenAction = createAsyncThunk<IUser>(
+	'user/check',
+	async (_, thunkAPI) => {
+		try {
+			const { data }: IAPILogin = await request('/user/check-token')
 
 			return data
 		} catch (e) {

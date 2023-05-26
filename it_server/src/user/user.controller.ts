@@ -63,7 +63,7 @@ export class UserController {
 				})
 			}
 
-			const { password, name, login, _id } = user
+			const { password, name, login, _id, surname } = user
 
 			const isPassword = await this.userService.isPassword(passwordBody, password)
 
@@ -76,7 +76,7 @@ export class UserController {
 				})
 			}
 
-			const token = this.jwtService.sign({ _id, name, login })
+			const token = this.jwtService.sign({ _id, name, login, surname })
 
 			res.status(202)
 				.cookie('token', token, {
@@ -86,7 +86,7 @@ export class UserController {
 				.json({
 					message: 'Авторизация прошла успешно',
 					type: 'success',
-					data: { name, login, _id },
+					data: { name, login, _id, surname },
 					token
 				})
 		} catch (e) {
@@ -126,7 +126,7 @@ export class UserController {
 				return {
 					message: 'Вы не авторизованы',
 					type: 'warn',
-					data: '',
+					data: {},
 					token: ''
 				}
 			}
@@ -143,12 +143,12 @@ export class UserController {
 				}
 			}
 
-			const { login, name, _id } = user
+			const { login, name, _id, surname } = user
 
 			return {
 				message: 'Авторизация прошла успешно',
 				type: 'success',
-				data: { login, name, _id },
+				data: { login, name, _id, surname },
 				token
 			}
 		} catch (e) {

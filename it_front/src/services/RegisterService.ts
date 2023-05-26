@@ -7,7 +7,7 @@ interface IAPiRegister extends IMessage {
 
 class RegisterService {
 	async register(name: string, surname: string, login: string, password: string): Promise<IAPiRegister> {
-		return request('/user/register', 'POST', { name, login, surname, password })
+		return await request('/user/register', 'POST', { name, login, surname, password })
 	}
 }
 

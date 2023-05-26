@@ -5,7 +5,7 @@ module.exports = {
 	mode: 'production',
 	entry: ['@babel/polyfill', path.resolve(__dirname, 'src/index.tsx')],
 	output: {
-		path: path.resolve(__dirname, 'path'),
+		path: path.resolve(__dirname, 'dist'),
 		filename: 'js/app.js',
 		clean: true
 	},

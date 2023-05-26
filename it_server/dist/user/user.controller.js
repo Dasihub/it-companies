@@ -66,7 +66,7 @@ let UserController = class UserController {
                     token: ''
                 });
             }
-            const { password, name, login, _id } = user;
+            const { password, name, login, _id, surname } = user;
             const isPassword = await this.userService.isPassword(passwordBody, password);
             if (!isPassword) {
                 return res.status(303).json({
@@ -76,7 +76,7 @@ let UserController = class UserController {
                     token: ''
                 });
             }
-            const token = this.jwtService.sign({ _id, name, login });
+            const token = this.jwtService.sign({ _id, name, login, surname });
             res.status(202)
                 .cookie('token', token, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -85,7 +85,7 @@ let UserController = class UserController {
                 .json({
                 message: 'Авторизация прошла успешно',
                 type: 'success',
-                data: { name, login, _id },
+                data: { name, login, _id, surname },
                 token
             });
         }
@@ -119,7 +119,7 @@ let UserController = class UserController {
                 return {
                     message: 'Вы не авторизованы',
                     type: 'warn',
-                    data: '',
+                    data: {},
                     token: ''
                 };
             }
@@ -133,11 +133,11 @@ let UserController = class UserController {
                     token: ''
                 };
             }
-            const { login, name, _id } = user;
+            const { login, name, _id, surname } = user;
             return {
                 message: 'Авторизация прошла успешно',
                 type: 'success',
-                data: { login, name, _id },
+                data: { login, name, _id, surname },
                 token
             };
         }

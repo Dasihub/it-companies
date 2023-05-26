@@ -24,6 +24,7 @@ export declare class UserController {
             login?: undefined;
             name?: undefined;
             _id?: undefined;
+            surname?: undefined;
         };
         token: string;
     } | {
@@ -33,6 +34,7 @@ export declare class UserController {
             login: string;
             name: string;
             _id: any;
+            surname: string;
         };
         token: any;
     }>;

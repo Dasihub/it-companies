@@ -8,6 +8,7 @@ export class FileService {
 
 	async saveProfileImg(img: any): Promise<string> {
 		try {
+			
 			if (!fs.existsSync('public/posts')) {
 				fs.mkdir('public/posts', err => {
 					if (err) {
@@ -23,6 +24,18 @@ export class FileService {
 			})
 
 			return fileName
+		} catch (e) {
+			console.log(e)
+		}
+	}
+
+	async delete(fileName: string) {
+		try {
+			await fs.unlink('public/posts/' + fileName, err => {
+				if (err) {
+					console.log(err, 'Error remove img')
+				}
+			})
 		} catch (e) {
 			console.log(e)
 		}

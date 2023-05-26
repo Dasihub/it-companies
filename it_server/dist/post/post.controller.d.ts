@@ -1,6 +1,6 @@
 import { PostService } from './post.service';
 import { CreatePostDto, UpdatePostDto } from './post.dto';
-import { FileService } from "../file/file.service";
+import { FileService } from '../file/file.service';
 export declare class PostController {
     private postService;
     private fileService;
@@ -31,7 +31,7 @@ export declare class PostController {
     updatePost(body: UpdatePostDto): Promise<{
         message: string;
         type: string;
-        data: any[];
+        data: import("mongoose").UpdateWriteOpResult;
     }>;
     deletePost({ id_post }: {
         id_post: string;

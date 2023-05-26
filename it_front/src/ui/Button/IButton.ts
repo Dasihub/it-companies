@@ -5,5 +5,5 @@ export interface IButtonProps {
 	loader?: boolean
 	disabled?: boolean
 	style?: CSSProperties
-	onClick: (e: FormEvent) => void
+	onClick?: (e: FormEvent) => void
 }

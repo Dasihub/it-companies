@@ -7,18 +7,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
+const path_1 = require("path");
 const common_1 = require("@nestjs/common");
 const user_module_1 = require("./user/user.module");
 const config_1 = require("@nestjs/config");
 const mongoose_1 = require("@nestjs/mongoose");
 const post_module_1 = require("./post/post.module");
+const serve_static_1 = require("@nestjs/serve-static");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         providers: [],
         controllers: [],
-        imports: [config_1.ConfigModule.forRoot({ isGlobal: true }), mongoose_1.MongooseModule.forRoot(process.env.MONGO_URL), user_module_1.UserModule, post_module_1.PostModule]
+        imports: [
+            serve_static_1.ServeStaticModule.forRoot({ rootPath: (0, path_1.join)(__dirname, '..', 'public') }),
+            config_1.ConfigModule.forRoot({ isGlobal: true }),
+            mongoose_1.MongooseModule.forRoot(process.env.MONGO_URL),
+            user_module_1.UserModule,
+            post_module_1.PostModule
+        ]
     })
 ], AppModule);
 exports.AppModule = AppModule;

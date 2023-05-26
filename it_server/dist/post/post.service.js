@@ -39,7 +39,6 @@ let PostService = class PostService {
     }
     async createPost(description, id_user, title, message, author, fileName) {
         try {
-            console.log(description, id_user, title, message, author, fileName);
             return await this.postModel.create({ id_user, title, message, author, fileName, description });
         }
         catch (e) {

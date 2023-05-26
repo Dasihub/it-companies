@@ -53,7 +53,10 @@ let PostController = class PostController {
     async createPost(body, img) {
         try {
             const { description, id_user, title, message, author } = body;
-            const fileName = await this.fileService.saveProfileImg(img);
+            let fileName = '';
+            if (img) {
+                fileName = await this.fileService.saveProfileImg(img);
+            }
             const data = await this.postService.createPost(description, id_user, title, message, author, fileName);
             return {
                 message: 'Данные успешно сохранены',
@@ -68,11 +71,11 @@ let PostController = class PostController {
     async updatePost(body) {
         try {
             const { description, id_post, message, author, title } = body;
-            await this.postService.updatePost(description, id_post, message, author, title);
+            const data = await this.postService.updatePost(description, id_post, message, author, title);
             return {
                 message: 'Данные успешно обновлены',
                 type: 'success',
-                data: []
+                data
             };
         }
         catch (e) {
@@ -81,6 +84,10 @@ let PostController = class PostController {
     }
     async deletePost({ id_post }) {
         try {
+            const { fileName } = await this.postService.findOnePost(id_post);
+            if (fileName === null || fileName === void 0 ? void 0 : fileName.length) {
+                await this.fileService.delete(fileName);
+            }
             await this.postService.deletePost(id_post);
             return {
                 message: 'Данные успешно удалено',
