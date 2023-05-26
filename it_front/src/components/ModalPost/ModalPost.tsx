@@ -3,20 +3,20 @@ import { Button, Input } from '../../ui'
 import { IModalProps } from './IModalPost'
 import styles from './styles.module.less'
 
-const ModalPost: FC<IModalProps> = ({ change, description, author, title, message, hideModal, handlePost }) => {
-    useEffect(() => {
-        document.body.style.overflowY = 'hidden'
+const ModalPost: FC<IModalProps> = ({ change, description, author, title, message, hideModal, handlePost, idPost }) => {
+	useEffect(() => {
+		document.body.style.overflowY = 'hidden'
 
-        return () => {
-            document.body.style.overflowY = 'visible'
-        }
-    }, [])
+		return () => {
+			document.body.style.overflowY = 'visible'
+		}
+	}, [])
 
 	return (
 		<div className={styles.background}>
 			<div className={styles.modal}>
 				<div className={styles.modal__header}>
-					<h1>Добавить</h1>
+					<h1>{idPost.length ? 'Изменить' : 'Добавить'}</h1>
 					<div onClick={hideModal}>Закрыть</div>
 				</div>
 

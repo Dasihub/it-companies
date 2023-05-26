@@ -15,7 +15,6 @@ const App: FC = () => {
 	const dispatch = useTypeDispatch()
 	const { isAuth, mainLoader } = useTypeSelector(state => state.userReducer)
 
-
 	const logout = async () => {
 		await AppService.logout()
 
@@ -27,10 +26,13 @@ const App: FC = () => {
 		dispatch(checkTokenAction())
 	}, [])
 
-	if(mainLoader) {
-		return <Loader isBackground/>
+	if (mainLoader) {
+		return (
+			<div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+				<Loader />
+			</div>
+		)
 	}
-
 
 	return (
 		<>

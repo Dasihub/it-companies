@@ -91,7 +91,7 @@ const PostPage: FC = () => {
 	const postFilter = posts.filter(item => item.title.toLowerCase().includes(valueFilter.toLowerCase().trim()))
 
 	useEffect(() => {
-		if(isAuth) {
+		if (isAuth) {
 			getPosts()
 		}
 	}, [isAuth])
@@ -100,6 +100,7 @@ const PostPage: FC = () => {
 		<>
 			{isModal && (
 				<ModalPost
+					idPost={idPost}
 					change={change}
 					hideModal={hideShowModal}
 					handlePost={handlePost}
