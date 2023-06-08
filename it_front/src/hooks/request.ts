@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify'
 import { store } from '../redux/store'
 import { logoutAction } from '../redux/user/userSlice'
+import {useTypeDispatch} from "./useTypeDispatch";
 
 export const baseURL = process.env.NODE_ENV == 'development' ? 'http://localhost:5000/api' : '/api'
 

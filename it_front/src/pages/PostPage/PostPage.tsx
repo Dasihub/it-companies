@@ -6,6 +6,7 @@ import { useTypeSelector } from '../../hooks/useTypeSelector'
 import PostService from '../../services/PostService'
 import { Button, Input, Loader } from '../../ui'
 import { IPost, IPostForm } from './IPostPage'
+import Compressor from 'compressorjs'
 
 const PostPage: FC = () => {
 	const { _id: id_user, isAuth } = useTypeSelector(state => state.userReducer)
@@ -16,6 +17,10 @@ const PostPage: FC = () => {
 	const [loader, setLoader] = useState<boolean>(false)
 	const [posts, setPosts] = useState<IPost[]>([])
 	const [valueFilter, setValueFilter] = useState<string>('')
+	const postFilter = posts.filter(item => item.title?.toLowerCase()?.includes(valueFilter?.toLowerCase()?.trim()))
+	const [img, setImg] = useState<string>('')
+	const [valueFile, setValueFile] = useState<string>('')
+	const [fileImg, setFileImg] = useState<File>()
 
 	const change = (e: ChangeEvent<HTMLInputElement>) => {
 		setPostForm(pre => (pre = { ...pre, [e.target.name]: e.target.value }))
@@ -47,12 +52,12 @@ const PostPage: FC = () => {
 
 	const handlePost = async (e: FormEvent) => {
 		e.preventDefault()
-		hideShowModal()
 		const { description, author, title, message } = postForm
 
 		if (!(description.trim().length && author.trim().length && title.trim().length && message.trim().length)) {
 			return toast.warn('Заполните все поля')
 		}
+		hideShowModal()
 
 		setPosts(
 			posts.map(item => {
@@ -66,8 +71,10 @@ const PostPage: FC = () => {
 			})
 		)
 
+		valueFilter.length ? setValueFilter('') : null
+
 		if (idPost.length) {
-			await PostService.updatePost(idPost, description.trim(), title.trim(), message.trim(), author.trim())
+			await PostService.updatePost(idPost, description.trim(), title.trim(), message.trim(), author.trim(), fileImg)
 			return
 		}
 
@@ -76,7 +83,8 @@ const PostPage: FC = () => {
 			description.trim(),
 			title.trim(),
 			message.trim(),
-			author.trim()
+			author.trim(),
+			fileImg
 		)
 		setPosts(pre => (pre = [...pre, data]))
 	}
@@ -88,19 +96,50 @@ const PostPage: FC = () => {
 		setPostForm({ description, message, author, title })
 	}
 
-	const postFilter = posts.filter(item => item.title.toLowerCase().includes(valueFilter.toLowerCase().trim()))
+	const changeFile = (e: ChangeEvent<HTMLInputElement>) => {
+		const file = (e.target.files as FileList)[0]
+		setValueFile(e.target.value)
+		const reader = new FileReader()
+		reader.readAsDataURL(file)
+		reader.onload = () => {
+			// @ts-ignore
+			setImg(reader.result || '')
+		}
+
+		console.log(file)
+
+		new Compressor(file, {
+			quality: 0.8,
+			height: 128,
+			width: 128,
+			strict: true,
+			checkOrientation: false,
+			convertTypes: ['image/png', 'image/jpeg', 'image/jpg'],
+			success(file_: File) {
+				const compressFile = new File([file_], file_.name)
+				setFileImg(compressFile)
+			}
+		})
+	}
+
+	const deleteImg = () => {
+		setImg('')
+		setValueFile('')
+	}
 
 	useEffect(() => {
-		if (isAuth) {
+		if (id_user) {
 			getPosts()
 		}
-	}, [isAuth])
+	}, [id_user])
 
 	return (
 		<>
 			{isModal && (
 				<ModalPost
 					idPost={idPost}
+					img={img}
+					valueFile={valueFile}
 					change={change}
 					hideModal={hideShowModal}
 					handlePost={handlePost}
@@ -108,6 +147,8 @@ const PostPage: FC = () => {
 					author={postForm.author}
 					title={postForm.title}
 					message={postForm.message}
+					changeFile={changeFile}
+					deleteImg={deleteImg}
 				/>
 			)}
 			<div style={{ display: 'flex', justifyContent: 'center', marginTop: 32 }}>

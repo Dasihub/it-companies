@@ -5,6 +5,7 @@ import { IPostProps } from './IPost'
 import styles from './styles.module.less'
 
 const Post: FC<IPostProps> = ({ posts, deletePost, changePost }) => {
+
 	return (
 		<div className={styles.container}>
 			{posts.map(item => (

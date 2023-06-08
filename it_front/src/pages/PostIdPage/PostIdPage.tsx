@@ -44,7 +44,7 @@ const PostIdPage: FC = () => {
 			<h1 style={{textAlign: 'center'}}>{post?.title}</h1>
 			<h2>Автор: {post?.author}</h2>
 			<p>Описание: {post?.description}</p>
-			<div>Дата: {post?.createdAt}</div>
+			<div>Дата: {new Date(post?.createdAt || '').toLocaleDateString()}</div>
 		</div>
 	)
 }
