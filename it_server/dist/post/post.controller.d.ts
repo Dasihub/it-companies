@@ -28,7 +28,7 @@ export declare class PostController {
             _id: import("mongoose").Types.ObjectId;
         }, never>;
     }>;
-    updatePost(body: UpdatePostDto): Promise<{
+    updatePost(body: UpdatePostDto, img: any): Promise<{
         message: string;
         type: string;
         data: import("mongoose").UpdateWriteOpResult;

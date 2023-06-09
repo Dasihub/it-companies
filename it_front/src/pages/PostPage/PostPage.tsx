@@ -47,6 +47,9 @@ const PostPage: FC = () => {
 
 	const hideShowModal = () => {
 		setIsModal(pre => (pre = !pre))
+		setFileImg(undefined)
+		setImg('')
+		setValueFile('')
 		setPostForm({ description: '', author: '', title: '', message: '' })
 	}
 
@@ -59,40 +62,35 @@ const PostPage: FC = () => {
 		}
 		hideShowModal()
 
-		setPosts(
-			posts.map(item => {
-				if (item._id == idPost) {
-					return {
-						...item,
-						...postForm
-					}
-				}
-				return item
-			})
-		)
-
 		valueFilter.length ? setValueFilter('') : null
 
 		if (idPost.length) {
-			await PostService.updatePost(idPost, description.trim(), title.trim(), message.trim(), author.trim(), fileImg)
-			return
+			await PostService.updatePost(
+				idPost,
+				description.trim(),
+				title.trim(),
+				message.trim(),
+				author.trim(),
+				fileImg
+			)
+		} else {
+			await PostService.createPost(
+				id_user,
+				description.trim(),
+				title.trim(),
+				message.trim(),
+				author.trim(),
+				fileImg
+			)
 		}
-
-		const data = await PostService.createPost(
-			id_user,
-			description.trim(),
-			title.trim(),
-			message.trim(),
-			author.trim(),
-			fileImg
-		)
-		setPosts(pre => (pre = [...pre, data]))
+		getPosts()
 	}
 
 	const changePost = (post: IPost) => {
 		hideShowModal()
-		const { description, _id, message, author, title } = post
+		const { description, _id, message, author, title, fileName } = post
 		setIdPost(_id)
+		setImg(fileName?.length ? `http://localhost:5000/posts/${fileName}` : '')
 		setPostForm({ description, message, author, title })
 	}
 
@@ -110,8 +108,8 @@ const PostPage: FC = () => {
 
 		new Compressor(file, {
 			quality: 0.8,
-			height: 128,
-			width: 128,
+			height: 500,
+			width: 500,
 			strict: true,
 			checkOrientation: false,
 			convertTypes: ['image/png', 'image/jpeg', 'image/jpg'],
@@ -125,6 +123,7 @@ const PostPage: FC = () => {
 	const deleteImg = () => {
 		setImg('')
 		setValueFile('')
+		setFileImg(undefined)
 	}
 
 	useEffect(() => {

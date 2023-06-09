@@ -16,16 +16,17 @@
 
 .post__img {
     width: 300px;
-    height: 150px;
-    background-color: rgb(114, 114, 114);
+    height: 204px;
+    background-color: rgb(189, 189, 189);
     border-radius: 16px 16px 0 0;
     
 
     img {
         width: 300px;
-        height: 150px;
+        height: 204px;
         border-radius: 16px 16px 0 0;
         object-fit: cover;
+        object-position: top;
     }
 }
 
@@ -35,6 +36,13 @@
     justify-content: space-between;
     flex-direction: column;
     gap: 8px;
+
+    h1, p{
+        font-size: 22px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
     a:hover {
         text-decoration: underline;

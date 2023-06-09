@@ -36,6 +36,6 @@ export declare class PostService {
     createPost(description: string, id_user: string, title: string, message: string, author: string, fileName: string): Promise<import("mongoose").Document<unknown, {}, PostDocument> & Omit<Post & import("mongoose").Document<any, any, any> & {
         _id: import("mongoose").Types.ObjectId;
     }, never>>;
-    updatePost(description: string, id_post: string, message: string, author: string, title: string): Promise<import("mongoose").UpdateWriteOpResult>;
+    updatePost(description: string, id_post: string, message: string, author: string, title: string, fileName: string): Promise<import("mongoose").UpdateWriteOpResult>;
     deletePost(id_post: string): Promise<import("mongodb").DeleteResult>;
 }

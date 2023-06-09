@@ -31,9 +31,9 @@ export class PostService {
 		}
 	}
 
-	async updatePost(description: string, id_post: string, message: string, author: string, title: string) {
+	async updatePost(description: string, id_post: string, message: string, author: string, title: string, fileName: string) {
 		try {
-			return await this.postModel.updateOne({_id: id_post}, {description, message, author, title})
+			return await this.postModel.updateOne({_id: id_post}, {description, message, author, title, fileName})
 		} catch (e) {
 			console.log(e)
 		}

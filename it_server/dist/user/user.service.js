@@ -32,6 +32,7 @@ let UserService = class UserService {
     }
     async createUser(login, password, name, surname) {
         try {
+            console.log(password);
             const hashPassword = await bcrypt.hash(password, 8);
             return await this.userModel.create({ login, password: hashPassword, name, surname });
         }

@@ -38,10 +38,21 @@ const PostIdPage: FC = () => {
 				flexDirection: 'column',
 				padding: 16,
 				margin: '16px auto 0 auto',
-				gap: 16
+				gap: 16,
+				wordWrap: 'break-word'
 			}}
 		>
-			<h1 style={{textAlign: 'center'}}>{post?.title}</h1>
+			<div
+				style={{
+					backgroundColor: post?.fileName ? '' : '#e8e8e8',
+					borderRadius: 16,
+					display: 'flex',
+					justifyContent: 'center'
+				}}
+			>
+				<img src={`http://localhost:5000/posts/${post?.fileName}`} style={{ borderRadius: 16, width: 200 }} />
+			</div>
+			<h1 style={{ textAlign: 'center' }}>{post?.title}</h1>
 			<h2>Автор: {post?.author}</h2>
 			<p>Описание: {post?.description}</p>
 			<div>Дата: {new Date(post?.createdAt || '').toLocaleDateString()}</div>

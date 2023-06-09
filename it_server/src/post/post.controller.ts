@@ -84,12 +84,26 @@ export class PostController {
 
 	@HttpCode(HttpStatus.OK)
 	@UseGuards(UserAuthGuard)
+	@UseInterceptors(FileInterceptor('img'))
 	@Put()
-	async updatePost(@Body() body: UpdatePostDto) {
+	async updatePost(@Body() body: UpdatePostDto, @UploadedFile() img) {
 		try {
 			const { description, id_post, message, author, title } = body
 
-			const data = await this.postService.updatePost(description, id_post, message, author, title)
+			const {fileName: f} = await this.postService.findOnePost(id_post)
+
+			let fileName = ''
+
+			if (f?.length) {
+				await this.fileService.delete(f)
+			}
+
+			if (img) {
+				fileName = await this.fileService.saveProfileImg(img)
+			}
+
+
+			const data = await this.postService.updatePost(description, id_post, message, author, title, fileName)
 			return {
 				message: 'Данные успешно обновлены',
 				type: 'success',

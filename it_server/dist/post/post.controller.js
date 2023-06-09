@@ -68,10 +68,18 @@ let PostController = class PostController {
             throw new common_1.HttpException('Ошибка в сервере', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    async updatePost(body) {
+    async updatePost(body, img) {
         try {
             const { description, id_post, message, author, title } = body;
-            const data = await this.postService.updatePost(description, id_post, message, author, title);
+            const { fileName: f } = await this.postService.findOnePost(id_post);
+            let fileName = '';
+            if (f === null || f === void 0 ? void 0 : f.length) {
+                await this.fileService.delete(f);
+            }
+            if (img) {
+                fileName = await this.fileService.saveProfileImg(img);
+            }
+            const data = await this.postService.updatePost(description, id_post, message, author, title, fileName);
             return {
                 message: 'Данные успешно обновлены',
                 type: 'success',
@@ -132,10 +140,12 @@ __decorate([
 __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.UseGuards)(user_auth_guard_1.UserAuthGuard),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('img')),
     (0, common_1.Put)(),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [post_dto_1.UpdatePostDto]),
+    __metadata("design:paramtypes", [post_dto_1.UpdatePostDto, Object]),
     __metadata("design:returntype", Promise)
 ], PostController.prototype, "updatePost", null);
 __decorate([
